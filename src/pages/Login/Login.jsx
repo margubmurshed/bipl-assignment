@@ -3,33 +3,18 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
-  const { user, setUser, setUserLoading, userLoading } =
-    useContext(AuthContext);
+  const { user, userLoading, userLogin } = useContext(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const username = form.username.value;
     const password = form.password.value;
-
-    setUserLoading(true);
-
-    fetch("https://dummyjson.com/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserLoading(false);
-      })
-      .catch((err) => console.log(err.message));
+    userLogin(username, password);
   };
+
   return (
-    <div className="">
+    <>
       {userLoading ? (
         <div className="h-screen flex justify-center items-center">
           <span className="loading loading-bars loading-lg"></span>
@@ -83,7 +68,7 @@ const Login = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 
